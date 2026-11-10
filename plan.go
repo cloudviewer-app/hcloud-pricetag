@@ -188,10 +188,11 @@ func (p Plan) Save(path string) error {
 
 // CheckNamespace refuses a plan made for a different label namespace than
 // the one apply is about to write. A plan without one predates configurable
-// namespaces and carries the dropped cloudviewer.app keys.
+// namespaces; those versions always wrote the cloudviewer.app keys, so it is
+// read as such.
 func (p *Plan) CheckNamespace(keys LabelKeys) error {
 	if p.Namespace == "" {
-		return fmt.Errorf("plan has no label namespace (made by an older version, with the retired cloudviewer.app keys) — run plan again")
+		p.Namespace = DefaultNamespace
 	}
 	if p.Namespace != keys.Namespace {
 		return fmt.Errorf("plan was made for namespace %q, but this run writes %q — pass -namespace %s or run plan again", p.Namespace, keys.Namespace, p.Namespace)

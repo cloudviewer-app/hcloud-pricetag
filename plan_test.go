@@ -337,20 +337,21 @@ func TestApplyRefusesPlanFromAnotherNamespace(t *testing.T) {
 	if err := (&Plan{Namespace: "example.org"}).CheckNamespace(testKeys); err == nil {
 		t.Error("namespace mismatch accepted")
 	}
-	if err := (&Plan{}).CheckNamespace(testKeys); err == nil {
-		t.Error("a pre-namespace plan carries the retired keys and must be refused")
+	old := &Plan{}
+	if err := old.CheckNamespace(testKeys); err != nil || old.Namespace != DefaultNamespace {
+		t.Errorf("a pre-namespace plan wrote the cloudviewer.app keys and must be accepted as such: %v, %q", err, old.Namespace)
 	}
 }
 
 func TestBuildPlanUsesTheNamespace(t *testing.T) {
 	before := cutoff.Add(-24 * time.Hour)
 	p := BuildPlan([]Server{srv(1, "legacy", "cpx52", "fsn1", before, nil)}, testTable(), cutoff, "EUR", testKeys)
-	if p.Namespace != "vaicoa.com" || p.Servers[0].Labels["vaicoa.com/monthly-net-cents"] != "3649" {
+	if p.Namespace != "cloudviewer.app" || p.Servers[0].Labels["cloudviewer.app/monthly-net-cents"] != "3649" {
 		t.Fatalf("plan: %+v", p)
 	}
 	for k := range p.Servers[0].Labels {
-		if strings.HasPrefix(k, "cloudviewer.app/") {
-			t.Errorf("retired key written: %s", k)
+		if strings.HasPrefix(k, "vaicoa.com/") {
+			t.Errorf("key in the retired vaicoa.com namespace written: %s", k)
 		}
 	}
 }

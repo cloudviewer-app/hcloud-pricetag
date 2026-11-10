@@ -10,9 +10,9 @@ func TestKeysForDefaultNamespace(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if k.Monthly != "vaicoa.com/monthly-net-cents" ||
-		k.Hourly != "vaicoa.com/hourly-net-millicents" ||
-		k.Currency != "vaicoa.com/price-currency" {
+	if k.Monthly != "cloudviewer.app/monthly-net-cents" ||
+		k.Hourly != "cloudviewer.app/hourly-net-millicents" ||
+		k.Currency != "cloudviewer.app/price-currency" {
 		t.Fatalf("keys: %+v", k)
 	}
 }

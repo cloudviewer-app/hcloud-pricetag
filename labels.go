@@ -9,8 +9,8 @@ import (
 )
 
 // DefaultNamespace prefixes the three reserved label keys unless -namespace or
-// PRICETAG_NAMESPACE says otherwise. Vaicoa reads these keys.
-const DefaultNamespace = "vaicoa.com"
+// PRICETAG_NAMESPACE says otherwise. Cloud Viewer reads these keys.
+const DefaultNamespace = "cloudviewer.app"
 
 // NamespaceEnv is the environment variable that sets the namespace when the
 // -namespace flag is not given.

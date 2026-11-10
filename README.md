@@ -84,7 +84,7 @@ hcloud-pricetag interactive
 ```
 
 ```
-account currency EUR, label namespace vaicoa.com
+account currency EUR, label namespace cloudviewer.app
 
     #  id         name                     type     loc    override
     1  141232610  web-1                    cpx32    nbg1   -
@@ -100,9 +100,9 @@ monthly net: 5.34
 hourly net: 0.0086
 currency (EUR/USD) [EUR]:
 will write:
-  vaicoa.com/monthly-net-cents: (none) -> "534"
-  vaicoa.com/hourly-net-millicents: (none) -> "860"
-  vaicoa.com/price-currency: (none) -> "EUR"
+  cloudviewer.app/monthly-net-cents: (none) -> "534"
+  cloudviewer.app/hourly-net-millicents: (none) -> "860"
+  cloudviewer.app/price-currency: (none) -> "EUR"
 write these labels? [y/N]: y
 written
 ```
@@ -134,7 +134,7 @@ are stating the price yourself. For the grandfathered-price case, prefer
 
 ### Label namespace
 
-The keys live under a namespace, `vaicoa.com` by default:
+The keys live under a namespace, `cloudviewer.app` by default:
 
 ```sh
 hcloud-pricetag plan -namespace prices.example.org
@@ -170,15 +170,9 @@ Three labels, on the server (shown with the default namespace):
 
 | Label | Unit | Example |
 |---|---|---|
-| `vaicoa.com/monthly-net-cents` | cents, 1e-2 of the unit | `1399` → 13.99/month |
-| `vaicoa.com/hourly-net-millicents` | milli-cents, 1e-5 of the unit | `2240` → 0.0224/hour |
-| `vaicoa.com/price-currency` | ISO code, `EUR` or `USD` | `EUR` |
-
-> **Changed:** earlier versions wrote `cloudviewer.app/…` keys. Those are no
-> longer written, read or reverted — there is no migration and no dual write.
-> Plan files from earlier versions carry the old keys and are refused by
-> `apply`; run `plan` again. Old labels left on a server can be removed by
-> hand, or with `revert -namespace cloudviewer.app`.
+| `cloudviewer.app/monthly-net-cents` | cents, 1e-2 of the unit | `1399` → 13.99/month |
+| `cloudviewer.app/hourly-net-millicents` | milli-cents, 1e-5 of the unit | `2240` → 0.0224/hour |
+| `cloudviewer.app/price-currency` | ISO code, `EUR` or `USD` | `EUR` |
 
 The currency label is required, and the reader compares it against the
 project's own `/pricing` document rather than trusting it. An amount without a
@@ -260,9 +254,9 @@ two invariants, writing nothing if either fails:
 No float touches a price anywhere in this repository. CI runs the generator and
 fails if the checked-in table differs.
 
-## Relationship to Vaicoa
+## Relationship to Cloud Viewer
 
-The label keys are namespaced to [Vaicoa][vc] by default, which reads them and
+The label keys are namespaced to [Cloud Viewer][cv] by default, which reads them and
 prefers them over the list price — for example for grandfathered prices. The
 convention is not a standard, and the prefix says so honestly; use
 `-namespace` for your own reader.
@@ -270,7 +264,7 @@ convention is not a standard, and the prefix says so honestly; use
 The labels are inert to everything else — nothing else reads them, and Hetzner
 bills you what it bills you regardless.
 
-[vc]: https://vaicoa.com
+[cv]: https://cloudviewer.app
 
 ## License
 
