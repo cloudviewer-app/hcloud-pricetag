@@ -32,7 +32,7 @@ You are the only one who knows which machines were left alone.
 ## Install
 
 ```sh
-go install github.com/mitja/hcloud-pricetag@latest
+go install github.com/cloudviewer-app/hcloud-pricetag@latest
 ```
 
 No dependencies beyond the Go standard library. This tool writes to your
